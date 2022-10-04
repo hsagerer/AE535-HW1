@@ -4,17 +4,17 @@ function [] = directAscentStaging()
 
 % Mass of third stage 
 
+syms a
+
 mL = directAscentPayload();
 g0 = 9.81;
-deltaV3 = 3200;
-Isp3 = 421;
-Eps3 = 0.19;
+deltaV = 10500;
 
-R3 = exp(deltaV3/(Isp3*g0));
-Gam3 = (1-Eps3*R3)/(R3-1);
-mStage3 = mL/Gam3 + mL;
+Isp = [283,311,421];
+Epsilon = [0.05,0.07,0.19];
 
-mL2 = mStage3;
-
+for i = 1:3
+    eqn = Isp(i)*g0*ln((a*Isp(i)*g0 + 1)/(a*Isp(i)*g0*Epsilon(i)));
+end
 
 end
