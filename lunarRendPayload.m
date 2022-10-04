@@ -5,12 +5,12 @@ Isp = 311;
 g0 = 9.81; 
 
 mf1 = 11900;
-deltaV1 = 0.9;
+deltaV1 = 0.9*10^3;
 
 mf2 = 4280;
-deltaV2 = 0.1 + 2.2 + 2.5;
+deltaV2 = (0.1 + 2.2 + 2.5)*10^3;
 
-deltaV3 = 0.9;
+deltaV3 = 0.9*10^3;
 
 moLOR1 = mf1/exp(-deltaV1/(Isp*g0));
 moLOR2 = (4280)/exp(-deltaV2/(Isp*g0));
