@@ -3,3 +3,7 @@
 close all;  clear;  clc;
 
 %% Direct Ascent Calculations
+directAscentPayload();
+
+%% Lunar Rendezvous Calculations
+lunarRendPayload();
