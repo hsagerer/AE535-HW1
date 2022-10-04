@@ -13,7 +13,7 @@ deltaV2 = 0.1 + 2.2 + 2.5;
 deltaV3 = 0.9;
 
 mpLOR1 = mf1/exp(-deltaV1/(Isp*g0));
-mpLOR2 = mf2/exp(-deltaV2/(Isp*g0));
+mpLOR2 = (mpLOR1+4280)/exp(-deltaV2/(Isp*g0));
 mpLOR3 = mpLOR2/exp(-deltaV3/(Isp*g0));
 
 fprintf('Payload Mass of LOR1: %0.3f kg\n',mpLOR1);
