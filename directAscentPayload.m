@@ -8,4 +8,6 @@ g0 = 9.81;
 
 mpDA = mf*(exp(deltaV/(Isp*g0))-1);
 
+fprintf('Mass of something: %0.3f kg\n',mpDA);
+
 end
