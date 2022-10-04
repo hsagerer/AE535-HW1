@@ -3,4 +3,3 @@
 close all;  clear;  clc;
 
 %% Direct Ascent Calculations
-ballz
