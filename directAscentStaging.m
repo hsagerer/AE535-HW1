@@ -11,9 +11,7 @@ Isp3 = 421;
 Eps3 = 0.19;
 
 R3 = exp(deltaV3/(Isp3*g0));
-
 Gam3 = (1-Eps3*R3)/(R3-1);
-
-
+mStage3 = mL/Gam3 + mL;
 
 end
