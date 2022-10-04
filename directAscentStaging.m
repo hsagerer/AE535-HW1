@@ -19,14 +19,16 @@ end
 
 EQN = eqn(1) + eqn(2) + eqn(3);
 
-alpha = double(solve(EQN,a))
+alpha = double(solve(equation,a))
 
 R = (alpha.*Isp.*g0 + 1)./(alpha.*Isp.*g0.*Epsilon)
 
 figure();
-plot(-1:0.03:1,subs(EQN,a,-1:0.03:1));
+plot(-0.01:0.0003:0.01,subs(equation,a,-0.01:0.0003:0.01));
 hold on;
 plot([-1,1],[deltaV,deltaV]);
 hold off;
+
+dv3 = Isp(3)*g0*log((alpha*Isp(3)*g0 + 1)/(alpha*Isp(3)*g0*Epsilon(3)))
 
 end
