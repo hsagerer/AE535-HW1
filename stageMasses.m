@@ -26,7 +26,7 @@ m03 = mL*((1+G(3))/G(3));
 m02 = m03*((1+G(2))/G(2));
 m01 = m02*((1+G(1))/G(1));
 
-stageMasses = [m01,m02,m03];
+stageMasses = [m01-m02,m02-m03,m03-mL];
 
 dv1 = Isp(1)*g0*log((alpha*Isp(1)*g0 + 1)/(alpha*Isp(1)*g0*Epsilon(1)));
 dv2 = Isp(2)*g0*log((alpha*Isp(2)*g0 + 1)/(alpha*Isp(2)*g0*Epsilon(2)));
