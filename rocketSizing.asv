@@ -4,8 +4,6 @@ function[] = rocketSizing()
 [mStagesDA, dvDA] = stageMasses(m0DA);
 [mLOR, dvLOR] = stageMasses(m0LOR);
 mDA(1) = mStagesDA(1) + mStagesDA(2) + mStagesDA(3) + m0DA;
-mDA(2) = mStagesDA(2) + mStagesDA(3) + m0DA;
-mDA(3) = mStagesDA(3) + m0DA;
 
 
 Isp = [283,311,421];
