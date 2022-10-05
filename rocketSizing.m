@@ -28,4 +28,8 @@ igLOR3 = mLOR(3)*TW2;
 
 igLOR = [igLOR1,igLOR2,igLOR3];
 
+% Direct Ascent Flow Rate
+
+frDA1 = igDA1/(Isp(1))
+
 end
