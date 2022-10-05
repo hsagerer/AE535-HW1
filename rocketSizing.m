@@ -37,6 +37,17 @@ igLOR = [igLOR1,igLOR2,igLOR3];
 % Direct Ascent Flow Rate
 
 frDA1 = igDA1/(Isp(1)*g0);
-frDA2 = ig 
+frDA2 = igDA2/(Isp(2)*g0);
+frDA3 = igDA3/(Isp(3)*g0);
+
+frDA = [frDA1,frDA2,frDA3];
+
+% LOR Flow Rate
+
+frLOR1 = igLOR1/(Isp(1)*g0);
+frLOR2 = igLOR2/(Isp(2)*g0);
+frLOR3 = igLOR3/(Isp(3)*g0);
+
+frLOR = [frLOR1,frLOR2,frLOR3];
 
 end
