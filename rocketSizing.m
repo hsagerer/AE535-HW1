@@ -22,7 +22,7 @@ Isp = [283,311,421];
 TW1 = 1.2;
 TW2 = 0.7;
 TW3 = 0.5;
-g0 = 9.81;
+g0 = 9.8;
 
 % Direct Ascent Ignition Thrusts
 igDA1 = mDA(1)*g0*TW1;
@@ -34,7 +34,7 @@ igDA = [igDA1,igDA2,igDA3];
 % LOR Ignition Thrusts
 igLOR1 = mLOR(1)*g0*TW1;
 igLOR2 = mLOR(2)*g0*TW2;
-igLOR3 = mLOR(3)*g0*TW2;
+igLOR3 = mLOR(3)*g0*TW3;
 
 igLOR = [igLOR1,igLOR2,igLOR3];
 
@@ -79,20 +79,16 @@ tBLOR = [tBLOR1,tBLOR2,tBLOR3];
 % Thrust to Weight to Determine Engine # DA
 
 engineNumDA1 = (igDA1/ThrustRP1);
-
 engineNumDA2 = (igDA2/ThrustLH2VA);
-
 engineNumDA3 = (igDA3/ThrustLH2VA);
 
 engineNumDA = [engineNumDA1,engineNumDA2,engineNumDA3];
 
 % Thrust to Weight to Determine Engine # LOR
 
-engineNumLOR1 = (igLOR1/ThrustRP1);
-
-engineNumLOR2 = (igLOR2/ThrustLH2VA);
-
-engineNumLOR3 = (igLOR3/ThrustLH2VA);
+engineNumLOR1 = ceil(igLOR1/ThrustRP1);
+engineNumLOR2 = ceil(igLOR2/ThrustLH2VA);
+engineNumLOR3 = ceil(igLOR3/ThrustLH2VA);
 
 engineNumLOR = [engineNumLOR1,engineNumLOR2,engineNumLOR3];
 
