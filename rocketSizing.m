@@ -2,7 +2,6 @@ function[] = rocketSizing()
 %Rocket Sizing of the Direct Ascent Configuration
 
 ThrustRP1 = 6770e3;
-ThrustLH2SL = 486.2e3;
 ThrustLH2VA = 1033e3;
 
 m0DA = directAscentPayload();
@@ -26,16 +25,16 @@ TW3 = 0.5;
 g0 = 9.81;
 
 % Direct Ascent Ignition Thrusts
-igDA1 = mDA(1)*TW1;
-igDA2 = mDA(2)*TW2;
-igDA3 = mDA(3)*TW3;
+igDA1 = mDA(1)*g0*TW1;
+igDA2 = mDA(2)*g0*TW2;
+igDA3 = mDA(3)*g0*TW3;
 
 igDA = [igDA1,igDA2,igDA3];
 
 % LOR Ignition Thrusts
-igLOR1 = mLOR(1)*TW1;
-igLOR2 = mLOR(2)*TW2;
-igLOR3 = mLOR(3)*TW2;
+igLOR1 = mLOR(1)*g0*TW1;
+igLOR2 = mLOR(2)*g0*TW2;
+igLOR3 = mLOR(3)*g0*TW2;
 
 igLOR = [igLOR1,igLOR2,igLOR3];
 
@@ -79,27 +78,22 @@ tBLOR = [tBLOR1,tBLOR2,tBLOR3];
 
 % Thrust to Weight to Determine Engine # DA
 
-TDA1 = mDA(1)*TW1;
-engineNumDA1 = ceil(TDA1/ThrustRP1);
+engineNumDA1 = (igDA1/ThrustRP1);
 
-TDA2 = mDA(2)*TW2;
-engineNumDA2 = ceil(TDA2/ThrustLH2SL);
+engineNumDA2 = (igDA2/ThrustLH2VA);
 
-TDA3 = mDA(3)*TW3;
-engineNumDA3 = ceil(TDA3/ThrustLH2VA);
+engineNumDA3 = (igDA3/ThrustLH2VA);
 
 engineNumDA = [engineNumDA1,engineNumDA2,engineNumDA3];
 
 % Thrust to Weight to Determine Engine # LOR
 
-TLOR1 = mLOR(1)*TW1;
-engineNumLOR1 = ceil(TLOR1/ThrustRP1);
+engineNumLOR1 = (igLOR1/ThrustRP1);
 
-TLOR2 = mLOR(2)*TW2;
-engineNumLOR2 = ceil(TLOR2/ThrustLH2SL);
+engineNumLOR2 = (igLOR2/ThrustLH2VA);
 
-TLOR3 = mLOR(3)*TW3;
-engineNumLOR3 = ceil(TLOR3/ThrustLH2VA);
+engineNumLOR3 = (igLOR3/ThrustLH2VA);
 
 engineNumLOR = [engineNumLOR1,engineNumLOR2,engineNumLOR3];
+
 end
