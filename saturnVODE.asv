@@ -6,7 +6,7 @@ function [xdot] = saturnVODE(t,x,mdot,T_SL,T_vac...
     ,Gimbal,verticalLaunch,fixedPitch,targetPitch)
 
 % Make sure only vertical launch or fixed pitch are selected
-if verticalLaunch && fixedPitch
+if verticalLaunch & fixedPitch
     error('Cannot use both vertical launch and fixed pitch');
 end
 
@@ -40,7 +40,7 @@ if fixedPitch
     theta = targetPitch;
 elseif verticalLaunch
     psi = pi/2;
-    theta = psi;
+    theta = psi + Gimbal;   % This corrects cos(theta-psi) to be cos(gim)
 else
     theta = psi + Gimbal;   % This corrects cos(theta-psi) to be cos(gim)
 end
@@ -52,15 +52,6 @@ dmdt = -mdot;
 dvdt = -g0*sin(psi) + (Thrust/m)*cos(theta-psi) - (D/m);
 
 % Change in position
-drdt = v*sin(psi);
-
-% Change in Flight Angle
-dpsidt = -(g0/v - v/r)*cos(psi) + Thrust/(v*m)*sin(theta-psi);
-
-% Change in True Anomoly
-dphidt = v/r*cos(psi);
-
-% Construct xdot
-xdot = [dmdt;dvdt;drdt;dpsidt;dphidt];
+drdt = 
 
 end
