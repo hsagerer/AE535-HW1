@@ -138,26 +138,47 @@ range = Re.*phi;
 fprintf('Final Alt: %0.3f km\n',alt(end)/1000);
 acc = (diff(vel))/tstep;
 acc(end+1) = 0;
+tpitch = max(timeS1);
+tmeco = max(timeS2);
+tseco = max(timeS3);
 
 % Plot altitude vs. time
 figure();
-plot(T,alt/1000);
+plot(T,alt/1000,'-b','linewidth',2);
+hold on;
+plot([tpitch,tpitch],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+hold off;
 xlabel('Time [s]');
 ylabel('Altitude [km]');
 xticks(0:60:max(T));
 xlim([0,max(T)]);
+ylim([0,1.1*max(alt/1000)]);
 
 % Plot altitude vs. range
 figure();
-plot(range/1000,alt/1000);
+plot(range/1000,alt/1000,'-b','linewidth',2);
+hold on;
+plot([tpitch,tpitch],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+hold off;
 xlabel('Range [km]');
 ylabel('Altitude [km]');
 xlim([0,max(range./1000)]);
+ylim([0,1.1*max(alt/1000)]);
 
 % Plot acceleration vs. time
 figure();
-plot(T,acc/g0);
+plot(T,acc/g0,'-b','linewidth',2);
+hold on;
+plot([tpitch,tpitch],[0,1.2*max(acc/g0)],'--k','linewidth',2);
+plot([tmeco,tmeco],[0,1.2*max(acc/g0)],'--k','linewidth',2);
+plot([tseco,tseco],[0,1.2*max(acc/g0)],'--k','linewidth',2);
+hold off;
 xlabel('Time [s]');
 ylabel('Acceleration [Gs]');
 xticks(0:60:max(T));
 xlim([0,max(T)]);
+ylim([0,1.1*max(acc/g0)]);

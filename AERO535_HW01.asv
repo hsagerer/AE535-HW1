@@ -97,8 +97,7 @@ timeS2 = tstart:tstep:tend;
 %     ,0,false,false,0),timeS2,x0,options);
 
 % 2nd stage constant pitch
-% cp = 17.54185;    % Constant pitch angle, degrees
-cp = 15=8;
+cp = 17.54185;    % Constant pitch angle, degrees
 x0 = X2(end,:);
 x0(1) = mLOR(2) + mLOR(3) + m0LOR;
 tstart = tend;
@@ -110,7 +109,6 @@ timeS3 = tstart:tstep:tend;
 %     ,0,false,true,deg2rad(cp)),timeS3,x0,options);
 
 % 3rd stage constant pitch
-cp = 17;
 x0 = X3(end,:);
 x0(1) = mLOR(3) + m0LOR;
 tstart = tend;
@@ -140,14 +138,23 @@ range = Re.*phi;
 fprintf('Final Alt: %0.3f km\n',alt(end)/1000);
 acc = (diff(vel))/tstep;
 acc(end+1) = 0;
+tpitch = ;
+tmeco = tbLOR(1);
+tseco = tbLOR(2)+tbLOR(1);
 
 % Plot altitude vs. time
 figure();
 plot(T,alt/1000);
+hold on;
+plot([tpitch,tpitch],[0,1.2*max(alt/1000)],'--k');
+plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k');
+plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k');
+hold off;
 xlabel('Time [s]');
 ylabel('Altitude [km]');
 xticks(0:60:max(T));
 xlim([0,max(T)]);
+ylim([0,1.1*max(alt/1000)]);
 
 % Plot altitude vs. range
 figure();
