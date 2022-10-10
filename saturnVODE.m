@@ -29,22 +29,27 @@ D = 0;      % Drag
 L = 0;      % Lift
 AoA = 0;    % Angle of Attack
 
-% If targetPitch is NaN, set target pitch to psi
-if isnan(targetPitch)
-    targetPitch = psi;
-end
-
 % Change in mass
 dmdt = -mdot;
 
 % Change in velocity
-dvdt = -g0*sin(psi) + (Thrust/m)*cos(targetPitch-psi) - (D/m);
+if ~isnan(targetPitch)
+    dvdt = -g0*sin(psi) + (Thrust/m)*cos(targetPitch-psi) - (D/m);
+else
+    dvdt = -g0*sin(psi) + (Thrust/m) - (D/m);
+end
 
 % Change in position
 drdt = v*sin(psi);
 
 % Change in Flight Angle
-dpsidt = -(g0/v - v/r)*cos(psi) + Thrust/(v*m)*sin(targetPitch-psi);
+% If targetPitch is not NaN, in a constant pitch section
+if ~isnan(targetPitch)
+    dpsidt = -(g0/v - v/r)*cos(psi)+Thrust/(v*m)*sin(targetPitch-psi);
+else
+    dpsidt = -(g0/v - v/r)*cos(psi);
+end
+
 if isnan(dpsidt)
     dpsidt = 0;
 end

@@ -75,7 +75,7 @@ if fixedPitch
 elseif verticalLaunch
     dpsidt = 0;
 else
-    dpsidt = -(g0/v - v/r)*cos(psi)+Thrust/m*sin(AOA+Gimbal)/m+Lift/m/v;
+    dpsidt = -(g0/v - v/r)*cos(psi)+Thrust/m*sin(AOA+Gimbal)/v+Lift/m/v;
 end
 %True anomaly
 if verticalLaunch
