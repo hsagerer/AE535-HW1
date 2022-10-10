@@ -1,95 +1,51 @@
-function[] = rocketSizing()
-%Rocket Sizing of the Direct Ascent Configuration
+function [T, mdot, tB, n, D] = rocketSizing(m0, mStages, dv)
 
+% Constants
 ThrustRP1 = 6770e3;
 ThrustLH2VA = 1033e3;
-
-m0DA = directAscentPayload();
-m0LOR = LORPayload();
-
-[mStagesDA, dvDA] = stageMasses(m0DA);
-[mStagesLOR, dvLOR] = stageMasses(m0LOR);
-
-mDA(1) = mStagesDA(1) + mStagesDA(2) + mStagesDA(3) + m0DA;
-mDA(2) = mStagesDA(2) + mStagesDA(3) + m0DA;
-mDA(3) = mStagesDA(3) + m0DA;
-
-mLOR(1) = mStagesLOR(1) + mStagesLOR(2) + mStagesLOR(3) + m0LOR;
-mLOR(2) = mStagesLOR(2) + mStagesLOR(3) + m0LOR;
-mLOR(3) = mStagesLOR(3) + m0LOR;
-
+engThrust = [ThrustRP1,ThrustLH2VA, ThrustLH2VA];
 Isp = [283,311,421];
-TW1 = 1.2;
-TW2 = 0.7;
-TW3 = 0.5;
-g0 = 9.8;
+TW(1) = 1.2;
+TW(2) = 0.7;
+TW(3) = 0.5;
+g0 = 9.81;
+engDiam = [3.1,2.7,2.7];
 
-% Direct Ascent Ignition Thrusts
-igDA1 = mDA(1)*g0*TW1;
-igDA2 = mDA(2)*g0*TW2;
-igDA3 = mDA(3)*g0*TW3;
+% Rocket Sizing of the Direct Ascent Configuration
+m(1) = mStages(1) + mStages(2) + mStages(3) + m0;
+m(2) = mStages(2) + mStages(3) + m0;
+m(3) = mStages(3) + m0;
 
-igDA = [igDA1,igDA2,igDA3];
-
-% LOR Ignition Thrusts
-igLOR1 = mLOR(1)*g0*TW1;
-igLOR2 = mLOR(2)*g0*TW2;
-igLOR3 = mLOR(3)*g0*TW3;
-
-igLOR = [igLOR1,igLOR2,igLOR3];
-
-% Direct Ascent Flow Rate
-
-frDA1 = igDA1/(Isp(1)*g0);
-frDA2 = igDA2/(Isp(2)*g0);
-frDA3 = igDA3/(Isp(3)*g0);
-
-frDA = [frDA1,frDA2,frDA3];
-
-% LOR Flow Rate
-
-frLOR1 = igLOR1/(Isp(1)*g0);
-frLOR2 = igLOR2/(Isp(2)*g0);
-frLOR3 = igLOR3/(Isp(3)*g0);
-
-frLOR = [frLOR1,frLOR2,frLOR3];
-
-% Propellant Mass and tB DA
-
-mpDA1 = mDA(1)*(1-exp(-dvDA(1)/(g0*Isp(1))));
-tBDA1 = mpDA1/frDA1;
-mpDA2 = mDA(2)*(1-exp(-dvDA(2)/(g0*Isp(2))));
-tBDA2 = mpDA2/frDA2;
-mpDA3 = mDA(3)*(1-exp(-dvDA(3)/(g0*Isp(3))));
-tBDA3 = mpDA3/frDA3;
-
-tBDA = [tBDA1,tBDA2,tBDA3];
- 
-% Propellant Mass and tB LOR
-
-mpLOR1 = mLOR(1)*(1-exp(-dvLOR(1)/(g0*Isp(1))));
-tBLOR1 = mpLOR1/frLOR1;
-mpLOR2 = mLOR(2)*(1-exp(-dvLOR(2)/(g0*Isp(2))));
-tBLOR2 = mpLOR2/frLOR2;
-mpLOR3 = mLOR(3)*(1-exp(-dvLOR(3)/(g0*Isp(3))));
-tBLOR3 = mpLOR3/frLOR3;
-
-tBLOR = [tBLOR1,tBLOR2,tBLOR3];
+% Ignition Thrusts
+T = m.*g0.*TW;
 
 % Thrust to Weight to Determine Engine # DA
+n(1) = ceil((T(1)/ThrustRP1));
+n(2) = ceil((T(2)/ThrustLH2VA));
+n(3) = ceil((T(3)/ThrustLH2VA));
 
-engineNumDA1 = (igDA1/ThrustRP1);
-engineNumDA2 = (igDA2/ThrustLH2VA);
-engineNumDA3 = (igDA3/ThrustLH2VA);
+% Update thrust to be the actual value from number of engines
+T = n.*engThrust;
 
-engineNumDA = [engineNumDA1,engineNumDA2,engineNumDA3];
+% Flow Rate
+mdot = T./(Isp.*g0);
 
-% Thrust to Weight to Determine Engine # LOR
+% Propellant Mass and tB
+mp = m.*(1-exp(-dv./(g0.*Isp)));
+tB = mp./mdot;
 
-engineNumLOR1 = ceil(igLOR1/ThrustRP1);
-engineNumLOR2 = ceil(igLOR2/ThrustLH2VA);
-engineNumLOR3 = ceil(igLOR3/ThrustLH2VA);
-
-engineNumLOR = [engineNumLOR1,engineNumLOR2,engineNumLOR3];
+% Engine diameter based on engine number
+for i = 1:3
+    switch n(i)
+        case 1
+            D(i) = 1*engDiam(i);
+        case 2
+            D(i) = 2*engDiam(i);
+        case 5
+            D(i) = (1+sqrt(2*(1+(1/sqrt(5)))))*engDiam(i);
+        case 10
+            D(i) = 3.813*engDiam(i);
+    end
+end
 
 end

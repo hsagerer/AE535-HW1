@@ -1,29 +1,44 @@
-function[] = rocketSizing()
-%Rocket Sizing of the Direct Ascent Configuration
+function [T, mdot, tB, n, D] = rocketSizing(m0, mStages, dv)
 
-[mStagesDA, dvDA] = stageMasses(m0DA);
-[mLOR, dvLOR] = stageMasses(m0LOR);
-mDA(1) = mStagesDA(1) + mStagesDA(2) + mStagesDA(3) + m0DA;
-
-
+% Constants
+ThrustRP1 = 6770e3;
+ThrustLH2VA = 1033e3
 Isp = [283,311,421];
-TW1 = 1.2;
-TW2 = 0.7;
-TW3 = 0.5;
+TW(1) = 1.2;
+TW(2) = 0.7;
+TW(3) = 0.5;
 g0 = 9.81;
 
-% Direct Ascent Ignition Thrusts
-igDA1 = mDA(1)*TW1;
-igDA2 = mDA(2)*TW2;
-igDA3 = mDA(3)*TW3;
+% Rocket Sizing of the Direct Ascent Configuration
+m(1) = mStages(1) + mStages(2) + mStages(3) + m0;
+m(2) = mStages(2) + mStages(3) + m0;
+m(3) = mStages(3) + m0;
 
-igDA = [igDA1,igDA2,igDA3];
+% Ignition Thrusts
+T = m.*g0.*TW;
 
-% LOR Ignition Thrusts
-igLOR1 = mLOR(1)*TW1;
-igLOR2 = mLOR(2)*TW2;
-igLOR3 = mLOR(3)*TW2;
+% Direct Ascent Flow Rate
+mdot = T./(Isp.*g0);
 
-igLOR = [igLOR1,igLOR2,igLOR3];
+% Propellant Mass and tB DA
+mp = m.*(1-exp(-dv./(g0.*Isp)));
+tB = mp./mdot;
+
+% Thrust to Weight to Determine Engine # DA
+n(1) = ceil((T(1)/ThrustRP1));
+n(2) = ceil((T(2)/ThrustLH2VA));
+n(3) = ceil((T(3)/ThrustLH2VA);
+
+% Engine diameter based on engine number
+switch n
+    case 1
+        
+    case 2
+
+    case 3
+
+    case 4
+
+end
 
 end
