@@ -60,10 +60,87 @@ end
 % <include>saturnVODE.m
 %
 
-x0 = [];
+% Constants
+Re = 6371e3;    % m, Radius of earth
+g0 = 9.81;      % m/s^2, gravitational acceleration
+T_F1_SL = 6770e3;
+T_F1_Vac = 7770e3;
+T_J2_SL = 486.2e3;
+T_J2_Vac = 1033e3;
+
+% Vertical Lift-off
+x0 = [sum(mLOR)+m0LOR;
+      0;
+      Re;
+      pi/2;
+      0];
 tstart = 0;
 tstep = 0.01;
-tend = 1;
-time = tstart:tstep:tend;
-[T,X] = ode45(@saturnVODE, time, x0);
+tend = 12;
+timeS1 = tstart:tstep:tend;
+[T1,X1] = ode45(@(t,x) saturnVODE(t,x,mdotLOR(1),5*T_F1_SL,5*T_F1_Vac,pi/2),...
+   timeS1,x0);
 
+% Pitch Over, Gravity Turn
+x0 = X1(end,:);
+x0(4) = deg2rad(89);
+tstart = tend;
+tstep = 0.01;
+tend = tbLOR(1)-tend;
+timeS2 = tstart:tstep:tend;
+[T2,X2] = ode45(@(t,x) saturnVODE(t,x,mdotLOR(1),5*T_F1_SL,5*T_F1_Vac,NaN),...
+   timeS2,x0);
+
+% 2nd stage constant pitch
+cp = 20;
+x0 = X2(end,:);
+x0(1) = mLOR(2) + mLOR(3) + m0LOR;
+x0(4) = deg2rad(cp);
+tstart = tend;
+tstep = 0.01;
+tend = tbLOR(2)+tend;
+timeS3 = tstart:tstep:tend;
+[T3,X3] = ode45(@(t,x) saturnVODE(t,x,mdotLOR(2),5*T_J2_SL,5*T_J2_Vac,...
+    deg2rad(cp)),timeS3,x0);
+
+% 3rd stage constant pitch
+x0 = X3(end,:);
+x0(1) = mLOR(3) + m0LOR;
+x0(4) = deg2rad(cp);
+tstart = tend;
+tstep = 0.01;
+tend = tbLOR(3)+tend;
+timeS4 = tstart:tstep:tend;
+[T4,X4] = ode45(@(t,x) saturnVODE(t,x,mdotLOR(2),T_J2_SL,T_J2_Vac,...
+    deg2rad(cp)),timeS4,x0);
+
+% Combine
+T = [T1;T2;T3;T4];
+X = [X1;X2;X3;X4];
+
+% Post process
+mass = X(:,1);
+r = X(:,3);
+psi = X(:,4);
+phi = X(:,5);
+alt = r-Re;
+range = Re.*phi;
+fprintf('Final Alt: %0.3f km\n',alt(end)/1000);
+
+% Plot altitude vs. time
+figure();
+plot(T,alt/1000);
+xlabel('Time [s]');
+ylabel('Altitude [km]');
+
+% Plot altitude vs. range
+figure();
+plot(range/1000,alt/1000);
+xlabel('Range [km]');
+ylabel('Altitude [km]');
+
+% Plot mass vs. time
+figure();
+plot(T,mass);
+xlabel('Time [s]');
+ylabel('Mass [kg]');

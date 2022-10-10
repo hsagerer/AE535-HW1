@@ -60,6 +60,54 @@ end
 % <include>saturnVODE.m
 %
 
-time = 
-[T,Xshort] = ode45(@problem3, tshort, x0short);
+% Constants
+Re = 6371e3;    % m, Radius of earth
+g0 = 9.81;      % m/s^2, gravitational acceleration
+T_F1_SL = 6770e3;
+T_F1_Vac = 7770e3;
+T_J2_SL = 486.2e3;
+T_J2_Vac = 1033e3;
 
+% Vertical Lift-off
+x0 = [sum(mLOR)+m0LOR;
+      0;
+      Re;
+      pi/2;
+      0];
+tstart = 0;
+tstep = 0.01;
+tend = 12;
+timeS1 = tstart:tstep:tend;
+[T1,X1] = ode45(@(t,x) saturnVODE(t,x,mdotLOR(1),5*T_F1_SL,5*T_F1_Vac,pi/2),...
+   timeS1,x0);
+
+% Pitch Over, Gravity Turn
+x0 = X1(:,end);
+x0(4) = d
+
+% 2nd stage constant pitch
+
+% 3rd stage constant pitch
+
+% Combine
+T = [T1];
+X = [X1];
+
+% Post process
+r = X(:,3);
+psi = X(:,4);
+phi = X(:,5);
+alt = r-Re;
+range = Re.*phi;
+
+% Plot altitude vs. time
+figure();
+plot(T,alt/1000);
+xlabel('Time [s]');
+ylabel('Altitude [km]');
+
+% Plot altitude vs. range
+figure();
+plot(range/1000,alt/1000);
+xlabel('Range [km]');
+ylabel('Altitude [km]');
