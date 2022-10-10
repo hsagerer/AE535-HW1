@@ -53,3 +53,5 @@ for i = 1:3
     fprintf('DA \t %d \t %d \t\t %0.2f \t\t %0.2f \t%d\t%0.2f\n',i,TDA(i)/1000,mdotDA(i), tbDA(i),nDA(i),DDA(i));
     fprintf('LOR\t %d \t %d \t\t %0.2f \t\t %0.2f \t%d\t%0.2f\n',i,TLOR(i)/1000,mdotLOR(i), tbLOR(i),nLOR(i),DLOR(i));
 end
+
+%% 
