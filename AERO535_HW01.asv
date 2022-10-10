@@ -46,8 +46,20 @@ fprintf('LOR Total Mass: %0.3f x 10^6 kg\n\n',round((sum(mLOR)+m0LOR)/1E6,4,'sig
 % 
 
 [TDA, mdotDA, tbDA, nDA, DDA] = rocketSizing(m0DA, mDA, dvDA);
-[TLOR, mdotLOR, tbLOR, nLOR, DLOR] = rocketSizing(m0DA, mDA, dvDA);
+[TLOR, mdotLOR, tbLOR, nLOR, DLOR] = rocketSizing(m0LOR, mLOR, dvLOR);
 
-fprintf('Architecture \t Stage \t Thrust [kN] \t Flow Rate [kg/s] \t tB [s] \t Engine \t n \t diam [m]\n');
+fprintf('Arc\tStg\tThrust [kN]\tFlow Rt [kg/s]\t tB [s] \tn\tdiam [m]\n');
 for i = 1:3
-    fprintf('DA \t %d \t %d',i,TDA()
+    fprintf('DA \t %d \t %d \t\t %0.2f \t\t %0.2f \t%d\t%0.2f\n',i,TDA(i)/1000,mdotDA(i), tbDA(i),nDA(i),DDA(i));
+    fprintf('LOR\t %d \t %d \t\t %0.2f \t\t %0.2f \t%d\t%0.2f\n',i,TLOR(i)/1000,mdotLOR(i), tbLOR(i),nLOR(i),DLOR(i));
+end
+
+%% Flight Simulation
+% Files Included: 
+%
+% <include>saturnVODE.m
+%
+
+time = 
+[T,Xshort] = ode45(@problem3, tshort, x0short);
+

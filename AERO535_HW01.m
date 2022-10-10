@@ -54,4 +54,16 @@ for i = 1:3
     fprintf('LOR\t %d \t %d \t\t %0.2f \t\t %0.2f \t%d\t%0.2f\n',i,TLOR(i)/1000,mdotLOR(i), tbLOR(i),nLOR(i),DLOR(i));
 end
 
-%% 
+%% Flight Simulation
+% Files Included: 
+%
+% <include>saturnVODE.m
+%
+
+x0 = [];
+tstart = 0;
+tstep = 0.01;
+tend = 1;
+time = tstart:tstep:tend;
+[T,X] = ode45(@saturnVODE, time, x0);
+
