@@ -145,8 +145,16 @@ alt = r-Re;
 range = Re.*phi;
 fprintf('\n\nFinal Vel: %0.2f km/s\n',vel(end)/1000);
 fprintf('Final Alt: %0.3f km\n',alt(end)/1000);
-acc = (diff(vel))/tstep;
-acc(end+1) = 0;
+
+% Acceleration Calculation
+% acc = (diff(vel))/tstep;
+% acc(end+1) = 0;
+r_d = vel.*sin(psi);
+r_dd = (diff(r_d))/tstep;
+r_dd(end+1) = 0;
+phi_d =
+
+% Time and Axis Calcs
 tpitch = max(timeS1);
 tmeco = max(timeS2);
 tseco = max(timeS3);
@@ -164,7 +172,7 @@ plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 ht = text(5,0.05*max(alt/1000),'Vertical Liftoff','Fontname','times');
 set(ht,'rotation',90);
-text(30,0.8*max(alt/1000),'Stage 1 Gravity Turn','Fontname','times');
+text(17,0.15*max(alt/1000),'Start Gravity Turn','Fontname','times');
 text(30,0.8*max(alt/1000),'Stage 1 Gravity Turn','Fontname','times');
 text(140,0.15*max(alt/1000),'Stage 1 MECO','Fontname','times');
 text(140,0.1*max(alt/1000),'Stage 2 Ignition','Fontname','times');

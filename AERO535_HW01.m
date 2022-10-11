@@ -145,8 +145,21 @@ alt = r-Re;
 range = Re.*phi;
 fprintf('\n\nFinal Vel: %0.2f km/s\n',vel(end)/1000);
 fprintf('Final Alt: %0.3f km\n',alt(end)/1000);
-acc = (diff(vel))/tstep;
-acc(end+1) = 0;
+
+% Acceleration Calculation
+% acc = (diff(vel))/tstep;
+% acc(end+1) = 0;
+r_d = vel.*sin(psi);
+r_dd = (diff(r_d))/tstep;
+r_dd(end+1) = 0;
+phi_d = vel./r.*cos(psi);
+phi_dd = (diff(phi_d))/tstep;
+phi_dd(end+1) = 0;
+acc = sqrt((r_dd-r.*phi_d.^2).^2+(r.*phi_dd+2.*r_d.*phi_d).^2);
+[~,i] = max(acc);
+acc(i) = acc(i-1);
+
+% Time and Axis Calcs
 tpitch = max(timeS1);
 tmeco = max(timeS2);
 tseco = max(timeS3);
