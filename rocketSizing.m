@@ -4,12 +4,13 @@ function [T, mdot, tB, n, D] = rocketSizing(m0, mStages, dv)
 ThrustRP1 = 6770e3;
 ThrustLH2VA = 1033e3;
 engThrust = [ThrustRP1,ThrustLH2VA, ThrustLH2VA];
-Isp = [283,311,421];
+Isp = [263,421,421];
 TW(1) = 1.2;
 TW(2) = 0.7;
 TW(3) = 0.5;
 g0 = 9.81;
 engDiam = [3.1,2.7,2.7];
+structCoef = [0.05,0.07,0.19];
 
 % Rocket Sizing of the Direct Ascent Configuration
 m(1) = mStages(1) + mStages(2) + mStages(3) + m0;
@@ -30,8 +31,12 @@ T = n.*engThrust;
 % Flow Rate
 mdot = T./(Isp.*g0);
 
-% Propellant Mass and tB
-mp = m.*(1-exp(-dv./(g0.*Isp)));
+% Propellant Mass from structural coefficient
+% mp = m.*(1-exp(-dv./(g0.*Isp)));
+ms = mStages.*structCoef;
+mp = mStages-ms;
+
+% Burn time
 tB = mp./mdot;
 
 % Engine diameter based on engine number

@@ -97,7 +97,7 @@ timeS2 = tstart:tstep:tend;
 %     ,0,false,false,0),timeS2,x0,options);
 
 % 2nd stage constant pitch
-cp = 17.54185;    % Constant pitch angle, degrees
+cp = 17.99335;    % Constant pitch angle, degrees
 x0 = X2(end,:);
 x0(1) = mLOR(2) + mLOR(3) + m0LOR;
 tstart = tend;
@@ -118,15 +118,24 @@ timeS4 = tstart:tstep:tend;
     deg2rad(cp)),timeS4,x0,options);
 % [T4,X4] = ode45(@(t,x) launchODE(t,x,mdotLOR(3),T_J2_SL,T_J2_Vac...
 %     ,0,false,true,deg2rad(cp)),timeS4,x0,options);
+% Correct to end at 7300 km/s
+T4 = T4(X4(:,2)<=7300);
+X4 = X4(X4(:,2)<=7300,:);
+tend = max(T4);
+timeS4 = tstart:tstep:tend;
+
+% % Coast
+% x0 = X4(end,:);
+% tstart = tend;
+% tend = tend + 500;
+% timeS5 = tstart:tstep:tend;
+% [T5,X5] = ode45(@(t,x) saturnVODE(t,x,0,0,0,0),timeS5,x0,options);
 
 % Combine
 T = [T1;T2;T3;T4];
 X = [X1;X2;X3;X4];
 
 % Post process
-vel = X(:,2);
-T = T(vel<=7300);
-X = X(vel<=7300,:);
 mass = X(:,1);
 vel = X(:,2);
 r = X(:,3);
@@ -134,13 +143,17 @@ psi = X(:,4);
 phi = X(:,5);
 alt = r-Re;
 range = Re.*phi;
-% fprintf('Final Vel: %0.2f km/s\n',vel(end)/1000);
+fprintf('\n\nFinal Vel: %0.2f km/s\n',vel(end)/1000);
 fprintf('Final Alt: %0.3f km\n',alt(end)/1000);
 acc = (diff(vel))/tstep;
 acc(end+1) = 0;
 tpitch = max(timeS1);
 tmeco = max(timeS2);
 tseco = max(timeS3);
+rpitch = range(T==tpitch);
+rpitch = rpitch(1)/1000;
+rmeco = range(T==tmeco)/1000;
+rseco = range(T==tseco)/1000;
 
 % Plot altitude vs. time
 figure();
@@ -160,9 +173,9 @@ ylim([0,1.1*max(alt/1000)]);
 figure();
 plot(range/1000,alt/1000,'-b','linewidth',2);
 hold on;
-plot([tpitch,tpitch],[0,1.2*max(alt/1000)],'--k','linewidth',2);
-plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
-plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([rpitch,rpitch],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([rmeco,rmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
+plot([rseco,rseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 hold off;
 xlabel('Range [km]');
 ylabel('Altitude [km]');

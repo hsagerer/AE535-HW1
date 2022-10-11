@@ -58,12 +58,7 @@ end
 dphidt = v/r*cos(psi);
 
 % Construct xdot
-% If v is 7.3 km/s, stop
-if v >= 7300
-    xdot = [0;0;0;0;0];
-else
-    xdot = [dmdt;dvdt;drdt;dpsidt;dphidt];
-end
+xdot = [dmdt;dvdt;drdt;dpsidt;dphidt];
 
 
 end
