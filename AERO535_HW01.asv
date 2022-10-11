@@ -164,7 +164,7 @@ plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 ht = text(5,0.05*max(alt/1000),'Vertical Liftoff','Fontname','times');
 set(ht,'rotation',90);
-text(17,0.15*max(alt/1000),'Start Gravity Turn','Fontname','times');
+text(30,0.8*max(alt/1000),'Stage 1 Gravity Turn','Fontname','times');
 text(30,0.8*max(alt/1000),'Stage 1 Gravity Turn','Fontname','times');
 text(140,0.15*max(alt/1000),'Stage 1 MECO','Fontname','times');
 text(140,0.1*max(alt/1000),'Stage 2 Ignition','Fontname','times');
