@@ -175,17 +175,17 @@ hold on;
 plot([tpitch,tpitch],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 plot([tmeco,tmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 plot([tseco,tseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
-ht = text(5,0.05*max(alt/1000),'Vertical Liftoff','Fontname','times');
-set(ht,'rotation',90);
-text(17,0.15*max(alt/1000),'Start Gravity Turn','Fontname','times');
-text(30,0.8*max(alt/1000),'Stage 1 Gravity Turn','Fontname','times');
-text(140,0.15*max(alt/1000),'Stage 1 MECO','Fontname','times');
-text(140,0.1*max(alt/1000),'Stage 2 Ignition','Fontname','times');
-text(140,0.05*max(alt/1000),'Turn to Constant Pitch','Fontname','times');
-text(300,0.8*max(alt/1000),'Stage 2 Constant Pitch','Fontname','times');
-text(525,0.1*max(alt/1000),'Stage 2 MECO','Fontname','times');
-text(525,0.05*max(alt/1000),'Stage 3 Ignition','Fontname','times');
-text(540,0.8*max(alt/1000),'Stage 3 Constant Pitch','Fontname','times');
+% ht = text(5,0.05*max(alt/1000),'Vertical Liftoff','Fontname','times');
+% set(ht,'rotation',90);
+% text(17,0.15*max(alt/1000),'Start Gravity Turn','Fontname','times');
+% text(30,0.8*max(alt/1000),'Stage 1 Gravity Turn','Fontname','times');
+% text(140,0.15*max(alt/1000),'Stage 1 MECO','Fontname','times');
+% text(140,0.1*max(alt/1000),'Stage 2 Ignition','Fontname','times');
+% text(140,0.05*max(alt/1000),'Turn to Constant Pitch','Fontname','times');
+% text(300,0.8*max(alt/1000),'Stage 2 Constant Pitch','Fontname','times');
+% text(525,0.1*max(alt/1000),'Stage 2 MECO','Fontname','times');
+% text(525,0.05*max(alt/1000),'Stage 3 Ignition','Fontname','times');
+% text(540,0.8*max(alt/1000),'Stage 3 Constant Pitch','Fontname','times');
 hold off;
 xlabel('Time [s]');
 ylabel('Altitude [km]');
@@ -193,6 +193,9 @@ xticks(0:60:max(T));
 xlim([0,max(T)]);
 ylim([0,1.1*max(alt/1000)]);
 set(gca,'fontname','times');
+
+set(gcf, 'Position', get(0, 'Screensize').*0.5 + [200 200 0 0]);
+saveas(gcf, [pwd '/Figures/1.png'])
 
 % Plot altitude vs. range
 figure();
@@ -202,14 +205,17 @@ plot([rpitch,rpitch],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 plot([rmeco,rmeco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 plot([rseco,rseco],[0,1.2*max(alt/1000)],'--k','linewidth',2);
 % text(50,0.8*max(alt/1000),'Stage 1','Fontname','times');
-text(400,0.8*max(alt/1000),'Stage 2','Fontname','times');
-text(1600,0.8*max(alt/1000),'Stage 3','Fontname','times');
+% text(400,0.8*max(alt/1000),'Stage 2','Fontname','times');
+% text(1600,0.8*max(alt/1000),'Stage 3','Fontname','times');
 hold off;
 xlabel('Range [km]');
 ylabel('Altitude [km]');
 xlim([0,max(range./1000)]);
 ylim([0,1.1*max(alt/1000)]);
 set(gca,'fontname','times');
+
+set(gcf, 'Position', get(0, 'Screensize').*0.5 + [200 200 0 0]);
+saveas(gcf, [pwd '/Figures/2.png'])
 
 % Plot acceleration vs. time
 figure();
@@ -218,9 +224,9 @@ hold on;
 plot([tpitch,tpitch],[0,1.2*max(acc/g0)],'--k','linewidth',2);
 plot([tmeco,tmeco],[0,1.2*max(acc/g0)],'--k','linewidth',2);
 plot([tseco,tseco],[0,1.2*max(acc/g0)],'--k','linewidth',2);
-text(30,0.8*max(acc/g0),'Stage 1','Fontname','times');
-text(300,0.8*max(acc/g0),'Stage 2','Fontname','times');
-text(540,0.8*max(acc/g0),'Stage 3','Fontname','times');
+% text(30,0.8*max(acc/g0),'Stage 1','Fontname','times');
+% text(300,0.8*max(acc/g0),'Stage 2','Fontname','times');
+% text(540,0.8*max(acc/g0),'Stage 3','Fontname','times');
 hold off;
 xlabel('Time [s]');
 ylabel('Acceleration [Gs]');
@@ -228,6 +234,9 @@ xticks(0:60:max(T));
 xlim([0,max(T)]);
 ylim([0,1.1*max(acc/g0)]);
 set(gca,'fontname','times');
+
+set(gcf, 'Position', get(0, 'Screensize').*0.5 + [200 200 0 0]);
+saveas(gcf, [pwd '/Figures/3.png'])
 
 % Print Con Ops
 fprintf('\nConcept of Operations\n');
