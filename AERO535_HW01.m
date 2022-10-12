@@ -5,7 +5,7 @@ close all;  clear;  clc;
 %% Direct Ascent Calculations
 % Files Included:
 % 
-% <include>directAscentPayload.m<\include>
+% <include>directAscentPayload.m</include>
 % 
 
 m0DA = directAscentPayload();
@@ -14,7 +14,7 @@ fprintf('LV Payload Mass of Direct Ascent: %0.0f kg\n',round(m0DA,4,'significant
 %% Lunar Rendezvous Calculations
 % Files Included:
 % 
-% <include>LORPayload.m<\include>
+% <include>LORPayload.m</include>
 % 
 
 m0LOR = LORPayload();
@@ -23,7 +23,7 @@ fprintf('LV Payload Mass of LOR: %0.0f kg\n\n',round(m0LOR,4,'significant'));
 %% Stage Masses
 % Files Included:
 % 
-% <include>stageMasses.m<\include>
+% <include>stageMasses.m</include>
 % 
 
 [mDA, dvDA] = stageMasses(m0DA);
@@ -42,7 +42,7 @@ fprintf('LOR Total Mass: %0.3f x 10^6 kg\n\n',round((sum(mLOR)+m0LOR)/1E6,4,'sig
 %% Rocket Sizing
 % Files Included:
 % 
-% <include>rocketSizing.m<\include>
+% <include>rocketSizing.m</include>
 % 
 
 [TDA, mdotDA, tbDA, nDA, DDA] = rocketSizing(m0DA, mDA, dvDA);
@@ -57,7 +57,7 @@ end
 %% Flight Simulation
 % Files Included: 
 %
-% <include>saturnVODE.m
+% <include>saturnVODE.m</include>
 %
 
 options = odeset('AbsTol',1e-10,'RelTol',1e-12);
